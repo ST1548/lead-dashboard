@@ -19,7 +19,7 @@ document.getElementById('loadDataBtn').addEventListener('click', function() {
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Fetching...';
     btn.disabled = true;
 
-    // Directly parse the CSV (works when hosted on http/https)
+    // Directly parse the CSV
     Papa.parse(CSV_URL, {
         download: true,
         header: true,
@@ -37,20 +37,21 @@ document.getElementById('loadDataBtn').addEventListener('click', function() {
                 const cleanWa = cleanNumber(waRaw);
                 
                 const row = document.createElement('tr');
-                row.className = "hover:bg-gray-50 transition-colors duration-150";
+                row.className = "hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100";
                 
+                // I updated the HTML below to show the numbers WITH the icons in clean pill shapes
                 row.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">${name}</div>
+                        <div class="text-sm font-semibold text-gray-900">${name}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                        <a href="tel:${cleanPhone}" class="${cleanPhone ? '' : 'pointer-events-none opacity-50'} inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white btn-transition" title="Call ${cleanPhone}">
-                            <i class="fa-solid fa-phone"></i>
+                        <a href="tel:${cleanPhone}" class="${cleanPhone ? '' : 'pointer-events-none opacity-50'} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white btn-transition font-medium text-sm border border-blue-200" title="Call ${cleanPhone}">
+                            <i class="fa-solid fa-phone"></i> ${cleanPhone}
                         </a>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                        <a href="https://wa.me/${cleanWa.replace('+','')}" target="_blank" class="${cleanWa ? '' : 'pointer-events-none opacity-50'} inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-50 text-green-600 hover:bg-green-500 hover:text-white btn-transition" title="WhatsApp ${cleanWa}">
-                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <a href="https://wa.me/${cleanWa.replace('+','')}" target="_blank" class="${cleanWa ? '' : 'pointer-events-none opacity-50'} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-green-50 text-green-700 hover:bg-green-600 hover:text-white btn-transition font-medium text-sm border border-green-200" title="WhatsApp ${cleanWa}">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> ${cleanWa}
                         </a>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -72,7 +73,7 @@ document.getElementById('loadDataBtn').addEventListener('click', function() {
         },
         error: function(err) {
             console.error("PapaParse Error:", err);
-            alert("Network error. Make sure you are running this on a local server or GitHub pages, not a file:// path.");
+            alert("Network error.");
             btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Fetch Latest Leads';
             btn.disabled = false;
         }
